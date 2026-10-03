@@ -1,6 +1,6 @@
 const promo = document.querySelector('#promo');
 const petalBed = document.querySelector('#petal-bed');
-const beatDuration = 60 / 112;
+const beatDuration = 60 / 124;
 const scenes = [...document.querySelectorAll('.scene')];
 
 scenes.forEach((scene) => {

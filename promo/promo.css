@@ -10,3 +10,27 @@
 .scene-finale{z-index:7;background:radial-gradient(ellipse at 50% 42%,#76414a 0%,#482630 54%,#25151d 100%);color:#fff6ed}.final-light{position:absolute;inset:9% -35%;background:radial-gradient(ellipse,#e8c4a520 0,transparent 67%);animation:light-breathe 2.2s ease-in-out infinite alternate}@keyframes light-breathe{to{transform:scale(1.11);opacity:.7}}.scene-finale>.small-label{position:absolute;top:255px;color:#edcda7;font-size:23px}.final-message{position:absolute;top:480px}.final-message>span{font:400 61px var(--calligraphy);color:#f0cfb0}.final-message h2{font:700 123px var(--calligraphy);color:#fff7ee;margin:0 0 25px}.final-message p{font:500 31px var(--sans);color:#e3cbb9}.brand-mark{position:absolute;top:1160px;width:106px;height:106px;border:1px solid #dabd9166;border-radius:50%;display:grid;place-items:center;color:#edd4ae}.brand-mark span{font:700 72px var(--calligraphy)}.brand-name{position:absolute;top:1282px;font:600 44px var(--sans);color:#f7e8d4}.brand-tagline{position:absolute;top:1340px;font:400 22px var(--calligraphy);color:#d5b997}.sticker-space{position:absolute;top:1460px;min-width:410px;padding:22px 55px;border:1px solid #d9bd96;border-radius:40px;color:#f4dfc1;font:500 25px var(--sans);box-shadow:0 0 0 8px #e0c69a12}.scene-finale .scene-index{bottom:70px;color:#dec7ae8c}
 .promo:not(.is-live) .scene{animation-play-state:paused}.promo:not(.is-live) .scene-paper{opacity:1;transform:none}.promo:not(.is-live) .petal{animation-play-state:paused;opacity:.28}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important}}
+
+/* Sharper social pacing and a clear, browser-like view of the real invitation. */
+.browser-bar{position:absolute;z-index:5;top:82px;left:50%;transform:translateX(-50%);width:70%;height:54px;padding:0 18px;border:1px solid #d7c6b1;border-radius:18px;background:#f8f2e9;display:flex;align-items:center;justify-content:space-between;direction:ltr;color:#775f57;font:500 16px var(--sans);box-shadow:0 6px 18px #4a303012}
+.browser-bar b{font:600 14px var(--sans);letter-spacing:2px;color:#9a7e69}
+.reveal-invitation>span{font-size:29px}
+.reveal-invitation em{font-size:28px}
+.site-action{position:absolute;z-index:4;left:50%;bottom:73px;transform:translateX(-50%);display:flex;align-items:center;gap:18px;padding:18px 30px;border-radius:36px;background:#772c39;color:#fff8ef;font:500 22px var(--sans);box-shadow:0 12px 28px #632d3935;animation:action-pulse 1.3s ease-in-out 6.35s infinite alternate}
+.site-action b{font-size:25px}
+@keyframes action-pulse{to{transform:translateX(-50%) scale(1.045);box-shadow:0 15px 34px #632d394d}}
+.rsvp-demo{margin-top:18px;min-width:265px;padding:17px 30px;border-radius:40px;background:#772c39;color:#fff9f2;font:500 24px var(--sans);box-shadow:0 8px 22px #572b3628;opacity:0;transform:translateY(15px)}
+.rsvp-demo i{margin-inline-start:8px;color:#f2d4c9;font-style:normal}
+.is-live .rsvp-demo{animation:rsvp-pop .5s cubic-bezier(.16,.75,.2,1) 14.34s both}
+.rsvp-confirm{position:absolute;bottom:133px;padding:12px 23px;border-radius:25px;background:#eee5d7;color:#5f704e;font:500 21px var(--sans);opacity:0;transform:translateY(8px)}
+.is-live .rsvp-confirm{animation:confirm-pop .45s ease 15s both}
+@keyframes rsvp-pop{to{opacity:1;transform:translateY(0)}}
+@keyframes confirm-pop{to{opacity:1;transform:translateY(0)}}
+.sticker-space{min-width:600px;top:1435px;padding:18px 38px 23px;display:flex;flex-direction:column;align-items:center;gap:10px}
+.sticker-space span{font-size:24px}
+.sticker-space b{font:500 25px var(--sans);direction:ltr;letter-spacing:.3px;color:#f2d9ba}
+.is-live .screen-veil{animation:open-veil .9s cubic-bezier(.4,.02,.15,1) 4.95s both}
+.is-live .screen-seal{animation:seal-pop .38s cubic-bezier(.2,.7,.2,1) 4.9s both}
+.is-live .reveal-spark{animation:spark-flash .55s ease 5.3s both}
+.is-live .rsvp-demo{animation:rsvp-pop .5s cubic-bezier(.16,.75,.2,1) 14.58s both}
+.is-live .rsvp-confirm{animation:confirm-pop .45s ease 15.18s both}

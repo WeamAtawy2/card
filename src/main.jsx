@@ -2,13 +2,19 @@ import React, { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import './style.css';
 
+function arabicGuestName(value) {
+  const name = value?.trim();
+  if (!name) return 'سارة';
+  if (/^(sarah?|sara)$/i.test(name)) return 'سارة';
+  return /\p{Script=Arabic}/u.test(name) ? name : 'صديقتي العزيزة';
+}
+
 const invitation = {
-  bride: 'Maya',
-  guest: new URLSearchParams(window.location.search).get('guest') || 'Sarah',
-  date: 'Thursday, July 30, 2026',
-  time: '6:00 in the evening',
-  location: 'At our home',
-  dressCode: 'Soft pastels & florals',
+  bride: 'مايا',
+  guest: arabicGuestName(new URLSearchParams(window.location.search).get('guest')),
+  date: 'الخميس، ٣٠ يوليو ٢٠٢٦',
+  time: 'الساعة السادسة مساءً',
+  location: 'في منزلنا',
   rsvpEmail: 'maya@example.com',
 };
 
@@ -16,24 +22,24 @@ const invitation = {
 const memories = [
   {
     image: 'https://images.unsplash.com/photo-1629046133174-b5c0d944640b?auto=format&fit=crop&w=900&q=85',
-    alt: 'Sample photograph of friends in floral dresses holding bouquets',
-    label: 'THE BEGINNING',
-    caption: 'Always together',
-    note: 'A little reminder of all the lovely things still ahead.',
+    alt: 'صديقات يحملن باقة من الزهور',
+    label: 'بدايتنا',
+    caption: 'دايمًا سوا',
+    note: 'ذكرى صغيرة بكل اللحظات الحلوة اللي لسه جاية.',
   },
   {
     image: 'https://images.unsplash.com/photo-1511988617509-a57c8a288659?auto=format&fit=crop&w=900&q=85',
-    alt: 'Sample photograph of friends sharing a moment at sunset',
-    label: 'GOLDEN HOUR',
-    caption: 'One of our favorite memories',
-    note: 'The sort of afternoon that makes you wish time would slow down.',
+    alt: 'صديقات يستمتعن بلحظة جميلة وقت الغروب',
+    label: 'وقت الغروب',
+    caption: 'من أحلى ذكرياتنا',
+    note: 'نهار حلو تمنّينا لو يطوّل شوي.',
   },
   {
     image: 'https://girlboss.com/cdn/shop/articles/Girlboss_Guide_to_Summer-6_2_0410a95b-e505-4fb9-85ce-856467402fe9_1024x625.png?v=1751556905',
-    alt: 'Sample photograph of friends enjoying a summer picnic',
-    label: 'JUST BECAUSE',
-    caption: 'From then to forever',
-    note: 'For every spontaneous plan that turned into a story.',
+    alt: 'صديقات في نزهة صيفية',
+    label: 'على السجية',
+    caption: 'من زمان وللأبد',
+    note: 'لكل مشوار عفوي صار حكاية حلوة.',
   },
 ];
 
@@ -145,8 +151,8 @@ function MusicToggle() {
   };
 
   return (
-    <button className={`music-toggle${playing ? ' is-playing' : ''}`} onClick={toggleMusic} aria-pressed={playing} aria-label={playing ? 'Turn music off' : 'Turn music on'}>
-      <span className="music-note" aria-hidden="true">♫</span><span>{playing ? 'Music on' : 'Music off'}</span>
+    <button className={`music-toggle${playing ? ' is-playing' : ''}`} onClick={toggleMusic} aria-pressed={playing} aria-label={playing ? 'إيقاف الموسيقى' : 'تشغيل الموسيقى'}>
+      <span className="music-note" aria-hidden="true">♫</span><span>{playing ? 'إيقاف الصوت' : 'تشغيل الصوت'}</span>
       <span className="music-bars" aria-hidden="true"><i /><i /><i /></span>
     </button>
   );
@@ -156,7 +162,7 @@ function MemoryCard({ memory, index }) {
   const [open, setOpen] = useState(false);
   return (
     <article className={`memory-card memory-card-${index + 1}`} data-memory-card>
-      <button className="polaroid" onClick={() => setOpen(!open)} aria-expanded={open} aria-label={`${memory.caption}. ${open ? 'Hide' : 'Read'} memory note`}>
+      <button className="polaroid" onClick={() => setOpen(!open)} aria-expanded={open} aria-label={`${memory.caption}. ${open ? 'إخفاء' : 'اقرئي'} الذكرى`}>
         <span className="photo-wrap">
           <img src={memory.image} alt={memory.alt} loading="lazy" decoding="async" onError={(event) => { event.currentTarget.style.display = 'none'; event.currentTarget.parentElement.classList.add('photo-unavailable'); }} />
           <span className="photo-glint" aria-hidden="true" />
@@ -189,9 +195,9 @@ function MemoriesSection() {
 
   return (
     <section className="memories" aria-labelledby="memories-title">
-      <div className="memory-heading"><span className="section-label">The people in every chapter</span><h2 id="memories-title">Little moments,<br /><em>all my favorite people.</em></h2><p>Every lovely story has the friends who made it feel like home.</p></div>
+      <div className="memory-heading"><span className="section-label">صديقات في كل حكاية</span><h2 id="memories-title">لحظات صغيرة،<br /><em>مع أغلى الناس.</em></h2><p>وراء كل ذكرى حلوة صديقات جعلوا من كل مكان بيتًا.</p></div>
       <div className="memory-scrapbook">{memories.map((memory, index) => <MemoryCard memory={memory} index={index} key={memory.label} />)}</div>
-      <div className="memory-footer"><span>kept close, always</span><i aria-hidden="true">✳</i><span>more memories to come</span></div>
+      <div className="memory-footer"><span>قريبات من القلب دايمًا</span><i aria-hidden="true">✳</i><span>ولسه في ذكريات أحلى</span></div>
     </section>
   );
 }
@@ -237,12 +243,12 @@ function PetalField() {
 
 function InvitationCard({ guest }) {
   return (
-    <article className="invite-card" aria-label={`${invitation.bride}'s bridal shower invitation`}>
-      <span className="eyebrow">A little celebration of love</span><div className="card-rule" />
-      <p className="script">Dear {guest},</p><p className="invite-line">You are warmly invited to celebrate</p>
-      <h2>{invitation.bride}</h2><p className="names">at her bridal shower</p><div className="card-rule" />
-      <p className="date">Thursday · July 30, 2026</p><p className="invite-line">Six o’clock in the evening</p>
-      <h3>At our home</h3><p className="invite-line">Soft pastels &amp; florals</p><p className="script">With love, Maya</p>
+    <article className="invite-card" lang="ar" dir="rtl" aria-label={`دعوة حفل استقبال العروس ${invitation.bride}`}>
+      <span className="eyebrow">احتفال صغير بكل الحب</span><div className="card-rule" />
+      <p className="script">إلى {guest}،</p><p className="invite-line">يسعدنا دعوتكِ للاحتفال بـ</p>
+      <h2>{invitation.bride}</h2><p className="names">Pridal Shower</p><div className="card-rule" />
+      <p className="date">{invitation.date}</p><p className="invite-line">{invitation.time}</p>
+      <h3>{invitation.location}</h3><p className="invite-line">{invitation.dressCode}</p><p className="script">بكل الحب، مايا</p>
     </article>
   );
 }
@@ -256,10 +262,10 @@ function RSVPDialog({ open, onClose }) {
 
   return (
     <dialog id="rsvp-dialog" onClose={onClose} onClick={(event) => { if (event.target === event.currentTarget) onClose(); }}>
-      <button className="close" aria-label="Close RSVP" onClick={onClose}>×</button>
-      <span className="section-label">A little note back</span><h2>Will you join us?</h2>
-      <p>We’d love to celebrate together.<br />Reply to Maya and let her know.</p>
-      <a className="rsvp" href={`mailto:${invitation.rsvpEmail}?subject=Bridal%20Shower%20RSVP`}>Reply to Maya</a>
+      <button className="close" aria-label="إغلاق تأكيد الحضور" onClick={onClose}>×</button>
+      <span className="section-label">رسالة صغيرة منكِ</span><h2>هل بتفرحينا بوجودكِ؟</h2>
+      <p>يسعدنا نحتفل سوا.<br />خبرينا إذا رح تكوني معنا.</p>
+      <a className="rsvp" href={`mailto:${invitation.rsvpEmail}?subject=${encodeURIComponent('تأكيد الحضور')}`}>أكّدي حضورك لمايا</a>
     </dialog>
   );
 }
@@ -309,20 +315,20 @@ function App() {
     <>
       <MusicToggle />
       <main>
-        <section className="experience" aria-label="Invitation reveal">
+        <section className="experience" aria-label="كشف الدعوة">
           <div className="stage" style={revealStyle}>
             <PetalField />
             <div className="sparkles" aria-hidden="true">{Array.from({ length: 32 }, (_, index) => <i className="spark" key={index} style={{ left: `${(index * 37 + 11) % 100}%`, top: `${(index * 61 + 13) % 100}%`, '--delay': `${(index % 7) * 0.43}s` }} />)}</div>
             <div className="contents" style={{ opacity: Math.max(0, Math.min(1, (progress - .27) * 3.1)), transform: `translateY(${(1 - progress) * 45}px)` }}><InvitationCard guest={guest} /></div>
             <div className="stage-copy" style={{ opacity: Math.max(0, 1 - progress * 2.2) }}>
-              <p className="stage-greeting">Dear {guest},</p><h1>Something beautiful<br /><em>is waiting for you</em></h1><p>An invitation, wrapped in a little moment just for you.</p>
+              <p className="stage-greeting">عزيزتي {guest}،</p><h1>في حكاية حلوة<br /><em>مستنيّتك...</em></h1><p>دعوة صغيرة، معمولة بمحبة عشانك.</p>
             </div>
             <div className="scroll-cue seal-cue" style={{ opacity: Math.max(0, 1 - progress * 5) }}>
-              <button className={`wax-seal${sealOpened ? ' is-open' : ''}`} onClick={openWithSeal} aria-label={sealOpened ? 'The invitation is unsealed' : 'Touch the wax seal to open your invitation'} disabled={sealOpened}>
+              <button className={`wax-seal${sealOpened ? ' is-open' : ''}`} onClick={openWithSeal} aria-label={sealOpened ? 'فُتح ختم الدعوة' : 'المسي ختم الشمع لفتح الدعوة'} disabled={sealOpened}>
                 <span>{invitation.bride[0]}</span>
               </button>
               {showBurst && <div className="seal-burst" aria-hidden="true">{[[0,-70],[48,-48],[70,0],[48,48],[0,70],[-48,48],[-70,0],[-48,-48],[25,-58],[-25,58],[58,25],[-58,-25]].map(([x,y], index) => <i key={index} style={{ '--x': `${x}px`, '--y': `${y}px`, '--delay': `${index * 24}ms` }} />)}</div>}
-              <span>{sealOpened ? 'Opened with love' : 'Touch the seal · or scroll'}</span><i />
+              <span>{sealOpened ? 'انفتحت بكل الحب' : 'المسي الختم أو تابعي التمرير'}</span><i />
             </div>
             <VeilArtwork />
           </div>
@@ -330,17 +336,17 @@ function App() {
         <section className="below">
           <MemoriesSection />
           <section className="details" aria-labelledby="details-title">
-            <span className="section-label">The day, in detail</span><h2 id="details-title">A day to celebrate</h2>
+            <span className="section-label">تفاصيل يومنا</span><h2 id="details-title">يوم للفرح ولمّة الأحباب</h2>
             <div className="detail-grid">
-              <div className="detail"><span className="icon">✳</span><h3>Date</h3><p>Thursday, July 30<small>Two thousand twenty-six</small></p></div>
-              <div className="detail"><span className="icon">◷</span><h3>Time</h3><p>6:00 in the evening<small>Please arrive a little early</small></p></div>
-              <div className="detail"><span className="icon">⌂</span><h3>Location</h3><p>At our home<small>Address to follow with RSVP</small></p></div>
-              <div className="detail"><span className="icon">❀</span><h3>Dress</h3><p>Soft pastels<small>Florals are always welcome</small></p></div>
+              <div className="detail"><span className="icon">✳</span><h3>التاريخ</h3><p>الخميس، ٣٠ يوليو<small>عام ٢٠٢٦</small></p></div>
+              <div className="detail"><span className="icon">◷</span><h3>الوقت</h3><p>السادسة مساءً<small>يسعدنا وصولكِ قبل الموعد بقليل</small></p></div>
+              <div className="detail"><span className="icon">⌂</span><h3>المكان</h3><p>في منزلنا<small>نرسل العنوان بعد تأكيد الحضور</small></p></div>
+              <div className="detail"><span className="icon">❀</span><h3>DressCode</h3><p>❤️🩷💛🖤<small>والزهور مرحّب بها دائمًا</small></p></div>
             </div>
-            <p className="note">I hope you can be there ♡</p><button className="rsvp" onClick={() => setRsvpOpen(true)}>Kindly RSVP</button>
+            <p className="note">يا رب تكوني معنا ♡</p><button className="rsvp" onClick={() => setRsvpOpen(true)}>أكّدي حضوركِ</button>
           </section>
-          <section className="closing"><span className="section-label">Until then</span><h2>Can’t wait to celebrate<br />with you.</h2><p>With love,</p><span className="signature">Maya</span></section>
-          <div className="footer">Made with love · July 2026</div>
+          <section className="closing"><span className="section-label">إلى أن نلتقي</span><h2>متحمّسين نحتفل<br />معكِ.</h2><p>بكل الحب،</p><span className="signature">مايا</span></section>
+          <div className="footer">صُنعت بكل الحب · تموز ٢٠٢٦</div>
         </section>
       </main>
       <RSVPDialog open={rsvpOpen} onClose={() => setRsvpOpen(false)} />

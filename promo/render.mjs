@@ -10,7 +10,7 @@ const here = dirname(fileURLToPath(import.meta.url));
 const output = resolve(here, 'maya-bridal-shower-reel.mp4');
 const working = await mkdtemp(join(tmpdir(), 'maya-bridal-promo-'));
 const origin = process.env.PROMO_ORIGIN || 'http://127.0.0.1:5173';
-const bpm = 112;
+const bpm = 124;
 const beat = 60 / bpm;
 const videoDuration = 44 * beat;
 const outputDuration = videoDuration + .18;
@@ -53,7 +53,7 @@ function writeOriginalTrack(filePath) {
     const to = Math.min(sampleCount, from + Math.ceil(.23 * sampleRate));
     for (let index = from; index < to; index += 1) {
       const elapsed = index / sampleRate - start;
-      const phase = 2 * Math.PI * (47 * elapsed + (112 / 28) * (1 - Math.exp(-28 * elapsed)));
+      const phase = 2 * Math.PI * (47 * elapsed + (124 / 28) * (1 - Math.exp(-28 * elapsed)));
       const sub = Math.sin(phase) * Math.exp(-elapsed * 20);
       const click = .24 * Math.sin(2 * Math.PI * 188 * elapsed) * Math.exp(-elapsed * 95);
       addSample((index), (sub + click) * strength, .5);
@@ -98,7 +98,7 @@ function writeOriginalTrack(filePath) {
     }
   };
 
-  // Bright, percussive opening motif; original notes and synthesized percussion only.
+  // A fresh, bright 124 BPM hook; original notes and synthesized percussion only.
   addKick(0, .9);
   addClap(.015, .44);
   [[74, .035], [78, .29], [81, .55], [78, .82]].forEach(([midi, at], index) => addTone(midi, at, .42, .105, 'lead', .34 + index * .1));
@@ -180,9 +180,9 @@ const rawVideo = await video.path();
 
 const ffmpeg = spawnSync(ffmpegPath, [
   '-y', '-i', rawVideo, '-i', audioPath,
-  '-t', outputDuration.toFixed(3), '-map', '0:v:0', '-map', '1:a:0',
-  '-vf', 'scale=1080:1920:flags=lanczos,fps=30,format=yuv420p',
-  '-af', 'loudnorm=I=-17:TP=-1.5:LRA=8',
+  '-t', outputDuration.toFixed(3),
+  '-filter_complex', '[0:v]trim=start=1,setpts=PTS-STARTPTS,scale=1080:1920:flags=lanczos,fps=30,format=yuv420p[v];[1:a]adelay=1000|1000,atrim=start=1,asetpts=PTS-STARTPTS,loudnorm=I=-17:TP=-1.5:LRA=8[a]',
+  '-map', '[v]', '-map', '[a]',
   '-c:v', 'libx264', '-preset', 'fast', '-crf', '20', '-profile:v', 'high', '-level:v', '4.1',
   '-c:a', 'aac', '-b:a', '192k', '-ar', '48000', '-movflags', '+faststart', '-shortest', output,
 ], { encoding: 'utf8', maxBuffer: 10 * 1024 * 1024 });
